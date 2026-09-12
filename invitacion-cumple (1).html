@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ven a celebrar mi cumple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#1a0b3f;
+    --bg-deep2:#2b0a5e;
+    --pink:#ff2e88;
+    --purple:#9b30ff;
+    --cyan:#00e5ff;
+    --yellow:#ffd400;
+    --orange:#ff6a2e;
+    --ink:#1a0b3f;
+    --paper:#fff7ec;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 8%, rgba(255,46,136,0.35), transparent 45%),
+      radial-gradient(circle at 85% 92%, rgba(0,229,255,0.28), transparent 45%),
+      linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-deep2) 55%, var(--bg-deep) 100%);
+    background-attachment:fixed;
+    color:var(--paper);
+    font-family:'Space Grotesk', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Bungee', system-ui, sans-serif; letter-spacing:0.01em;}
+  a{color:inherit;}
+  ::selection{background:var(--yellow); color:var(--ink);}
+
+  .wrap{max-width:640px; margin:0 auto; padding:0 20px 80px;}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    padding:40px 20px;
+  }
+  .sunburst{
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:repeating-conic-gradient(
+      from 0deg,
+      rgba(255,212,0,0.12) 0deg 9deg,
+      transparent 9deg 18deg
+    );
+    animation:spin 90s linear infinite;
+    z-index:0;
+  }
+  @media (prefers-reduced-motion: reduce){ .sunburst{animation:none;} }
+  @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+
+  .hero-content{position:relative; z-index:1;}
+  .eyebrow-shape{
+    display:inline-block;
+    background:var(--pink);
+    color:var(--ink);
+    font-family:'Bungee', sans-serif;
+    font-size:13px;
+    padding:8px 18px;
+    border-radius:999px;
+    transform:rotate(-3deg);
+    margin-bottom:28px;
+    box-shadow:4px 4px 0 var(--yellow);
+  }
+  h1.title{
+    font-size:clamp(2.4rem, 9vw, 4.4rem);
+    line-height:1.05;
+    margin:0 0 20px;
+    color:var(--yellow);
+    text-shadow:
+      3px 3px 0 var(--pink),
+      6px 6px 0 var(--purple);
+  }
+  .subtitle{
+    font-size:clamp(1.1rem, 3.4vw, 1.5rem);
+    max-width:26ch;
+    margin:0 auto;
+    color:var(--paper);
+    font-weight:500;
+  }
+  .subtitle strong{color:var(--cyan);}
+  .scroll-cue{
+    margin-top:56px;
+    font-size:14px;
+    color:var(--cyan);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+  .scroll-cue .arrow{
+    width:14px;height:14px;
+    border-right:3px solid var(--cyan);
+    border-bottom:3px solid var(--cyan);
+    transform:rotate(45deg);
+  }
+
+  /* TICKET STUBS */
+  .stub{
+    background:var(--paper);
+    color:var(--ink);
+    border:3px solid var(--ink);
+    border-radius:18px;
+    padding:28px 26px;
+    margin:0 0 54px;
+    position:relative;
+    box-shadow:8px 8px 0 rgba(0,0,0,0.001);
+  }
+  .stub.pink{box-shadow:8px 8px 0 var(--pink); transform:rotate(-1.4deg);}
+  .stub.cyan{box-shadow:8px 8px 0 var(--cyan); transform:rotate(1.2deg);}
+  .stub.orange{box-shadow:8px 8px 0 var(--orange); transform:rotate(-0.8deg);}
+  .stub-notch{
+    position:absolute;
+    top:50%;
+    width:26px; height:26px;
+    background:var(--bg-deep2);
+    border-radius:50%;
+    transform:translateY(-50%);
+  }
+  .stub-notch.left{left:-16px;}
+  .stub-notch.right{right:-16px;}
+  .stub h2{
+    font-family:'Bungee', sans-serif;
+    font-size:1.3rem;
+    margin:0 0 14px;
+    line-height:1.2;
+  }
+  .stub .big{
+    font-size:1.6rem;
+    font-weight:700;
+    margin:0 0 6px;
+  }
+  .stub p{margin:4px 0; font-size:1rem;}
+  .stub .note{
+    display:inline-block;
+    margin-top:10px;
+    font-size:0.9rem;
+    font-weight:700;
+    color:var(--ink);
+    background:var(--yellow);
+    padding:5px 12px;
+    border-radius:8px;
+    transform:rotate(-1.5deg);
+  }
+  .map-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    font-weight:700;
+    text-decoration:none;
+    color:var(--ink);
+    border-bottom:3px solid var(--purple);
+    padding-bottom:2px;
+  }
+  .map-link:hover{color:var(--purple);}
+
+  /* SECTION HEADINGS above stubs area not needed; keep flow */
+
+  section.details{padding-top:70px;}
+
+  /* FORM */
+  .pass{
+    background:linear-gradient(135deg, var(--purple), var(--pink));
+    border-radius:22px;
+    padding:4px;
+    margin-top:10px;
+  }
+  .pass-inner{
+    background:var(--bg-deep);
+    border-radius:19px;
+    padding:34px 26px;
+  }
+  .pass h2{
+    font-family:'Bungee', sans-serif;
+    color:var(--cyan);
+    font-size:1.5rem;
+    margin:0 0 6px;
+    text-align:center;
+  }
+  .pass .sub{
+    text-align:center;
+    color:var(--paper);
+    opacity:0.85;
+    margin:0 0 28px;
+    font-size:0.95rem;
+  }
+  .field{margin-bottom:22px;}
+  .field label{
+    display:block;
+    font-weight:700;
+    margin-bottom:8px;
+    font-size:0.95rem;
+    color:var(--yellow);
+  }
+  .field input[type="text"]{
+    width:100%;
+    padding:13px 14px;
+    border-radius:10px;
+    border:2px solid var(--purple);
+    background:rgba(255,255,255,0.06);
+    color:var(--paper);
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1rem;
+  }
+  .field input[type="text"]::placeholder{color:rgba(255,247,236,0.4);}
+  .field input[type="text"]:focus{
+    outline:3px solid var(--cyan);
+    outline-offset:1px;
+    border-color:var(--cyan);
+  }
+  .choice-row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .choice{
+    flex:1;
+    min-width:130px;
+    position:relative;
+  }
+  .choice input{
+    position:absolute;
+    opacity:0;
+    width:100%;height:100%;
+    top:0;left:0;
+    margin:0;
+    cursor:pointer;
+  }
+  .choice span{
+    display:block;
+    text-align:center;
+    padding:13px 10px;
+    border-radius:10px;
+    border:2px solid var(--purple);
+    font-weight:700;
+    font-size:0.95rem;
+    background:rgba(255,255,255,0.04);
+    transition:transform 0.1s ease;
+  }
+  .choice input:checked + span{
+    background:var(--yellow);
+    color:var(--ink);
+    border-color:var(--yellow);
+    transform:translateY(-2px);
+  }
+  .choice input:focus-visible + span{
+    outline:3px solid var(--cyan);
+    outline-offset:2px;
+  }
+  .acompanante-field{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .acompanante-field.open{max-height:200px;}
+
+  .error-text{
+    color:var(--yellow);
+    font-size:0.85rem;
+    margin-top:6px;
+    display:none;
+  }
+  .error-text.show{display:block;}
+
+  .submit-btn{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    background:var(--pink);
+    color:var(--ink);
+    font-family:'Bungee', sans-serif;
+    font-size:1.05rem;
+    cursor:pointer;
+    box-shadow:5px 5px 0 var(--cyan);
+    transition:transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .submit-btn:hover{transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--cyan);}
+  .submit-btn:active{transform:translate(1px,1px); box-shadow:2px 2px 0 var(--cyan);}
+  .submit-btn:focus-visible{outline:3px solid var(--yellow); outline-offset:3px;}
+
+  /* CONFIRMATION SCREEN */
+  .confirm-screen{
+    display:none;
+    text-align:center;
+    padding:60px 20px;
+  }
+  .confirm-screen.show{display:block;}
+  .confirm-screen .burst{
+    font-size:4rem;
+    margin-bottom:10px;
+  }
+  .confirm-screen h2{
+    font-family:'Bungee', sans-serif;
+    color:var(--yellow);
+    font-size:2rem;
+    text-shadow:3px 3px 0 var(--purple);
+    margin:0 0 14px;
+  }
+  .confirm-screen p{font-size:1.05rem; max-width:32ch; margin:0 auto;}
+
+  footer{
+    text-align:center;
+    font-size:0.85rem;
+    opacity:0.6;
+    padding:30px 20px 10px;
+  }
+
+  @media (max-width:480px){
+    .stub{padding:22px 18px;}
+    .pass-inner{padding:26px 18px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="sunburst" aria-hidden="true"></div>
+  <div class="hero-content">
+    <span class="eyebrow-shape">¡se viene la fiesta!</span>
+    <h1 class="title display">Ven a celebrar<br>mi cumple</h1>
+    <p class="subtitle">Los primeros <strong>tacos</strong> van por mi cuenta.</p>
+    <div class="scroll-cue">
+      todos los detalles aquí abajo
+      <span class="arrow"></span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="details">
+
+    <div class="stub pink">
+      <span class="stub-notch left"></span>
+      <span class="stub-notch right"></span>
+      <h2>Fecha y hora</h2>
+      <p class="big">3 de octubre · 3:00 PM</p>
+      <span class="note">Hora alemana: ¡puntual! ⏱</span>
+    </div>
+
+    <div class="stub cyan">
+      <span class="stub-notch left"></span>
+      <span class="stub-notch right"></span>
+      <h2>Lugar</h2>
+      <p class="big">Restaurante Balandra</p>
+      <p>Roma Norte</p>
+      <a class="map-link" href="https://maps.app.goo.gl/ZFqCu3fR9jz9P2bo9" target="_blank" rel="noopener">
+        ver ubicación en el mapa →
+      </a>
+    </div>
+
+    <div class="stub orange">
+      <span class="stub-notch left"></span>
+      <span class="stub-notch right"></span>
+      <h2>Música en vivo</h2>
+      <p class="big">Banda de salsa en vivo</p>
+      <p>Desde las 5:00 PM</p>
+    </div>
+
+  </section>
+
+  <section id="rsvp-section">
+    <div class="pass">
+      <div class="pass-inner">
+        <h2>Confirma tu asistencia</h2>
+        <p class="sub">Necesito saber si vienes antes de reservar la mesa</p>
+
+        <form id="rsvp-form" novalidate>
+
+          <div class="field">
+            <label for="nombre">Nombre y apellido</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre completo">
+            <div class="error-text" id="err-nombre">Escribe tu nombre y apellido.</div>
+          </div>
+
+          <div class="field">
+            <label>¿Asistirás?</label>
+            <div class="choice-row">
+              <label class="choice">
+                <input type="radio" name="asistencia" value="si">
+                <span>Sí, ahí estaré</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="asistencia" value="no">
+                <span>No podré ir</span>
+              </label>
+            </div>
+            <div class="error-text" id="err-asistencia">Elige una opción.</div>
+          </div>
+
+          <div class="field" id="acompanante-wrap">
+            <div class="acompanante-field" id="acompanante-field">
+              <label>¿Vas solo o acompañado?</label>
+              <div class="choice-row">
+                <label class="choice">
+                  <input type="radio" name="acompanante" value="solo">
+                  <span>Voy solo</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="acompanante" value="acompanado">
+                  <span>Con acompañante</span>
+                </label>
+              </div>
+              <div class="error-text" id="err-acompanante">Elige una opción.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="intolerancia">¿Alguna intolerancia o alergia alimentaria?</label>
+            <input type="text" id="intolerancia" name="intolerancia" placeholder="Ninguna, si no aplica">
+          </div>
+
+          <button type="submit" class="submit-btn">Confirmar asistencia</button>
+        </form>
+
+        <div class="confirm-screen" id="confirm-screen">
+          <div class="burst">🎉</div>
+          <h2>¡Todo listo!</h2>
+          <p id="confirm-message">Gracias por confirmar. ¡Nos vemos el 3 de octubre!</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>hecho con cariño para una noche de tacos y salsa 🌮</footer>
+
+<script>
+(function(){
+  var form = document.getElementById('rsvp-form');
+  var acompananteField = document.getElementById('acompanante-field');
+  var confirmScreen = document.getElementById('confirm-screen');
+  var confirmMessage = document.getElementById('confirm-message');
+
+  var asistenciaRadios = form.querySelectorAll('input[name="asistencia"]');
+  asistenciaRadios.forEach(function(r){
+    r.addEventListener('change', function(){
+      if (r.value === 'si' && r.checked){
+        acompananteField.classList.add('open');
+      } else if (r.value === 'no' && r.checked){
+        acompananteField.classList.remove('open');
+        var acompRadios = form.querySelectorAll('input[name="acompanante"]');
+        acompRadios.forEach(function(a){ a.checked = false; });
+        document.getElementById('err-acompanante').classList.remove('show');
+      }
+    });
+  });
+
+  function clearErrors(){
+    document.querySelectorAll('.error-text').forEach(function(e){ e.classList.remove('show'); });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearErrors();
+
+    var nombre = document.getElementById('nombre').value.trim();
+    var asistenciaEl = form.querySelector('input[name="asistencia"]:checked');
+    var acompananteEl = form.querySelector('input[name="acompanante"]:checked');
+    var intolerancia = document.getElementById('intolerancia').value.trim();
+
+    var valid = true;
+
+    if (!nombre){
+      document.getElementById('err-nombre').classList.add('show');
+      valid = false;
+    }
+    if (!asistenciaEl){
+      document.getElementById('err-asistencia').classList.add('show');
+      valid = false;
+    }
+    if (asistenciaEl && asistenciaEl.value === 'si' && !acompananteEl){
+      document.getElementById('err-acompanante').classList.add('show');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    var asistencia = asistenciaEl.value;
+    var acompanante = asistencia === 'si' ? acompananteEl.value : null;
+
+    var record = {
+      nombre: nombre,
+      asistencia: asistencia,
+      acompanante: acompanante,
+      intolerancia: intolerancia || null,
+      fecha_confirmacion: new Date().toISOString()
+    };
+
+    var key = 'rsvp:' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+
+    function showConfirmation(){
+      form.style.display = 'none';
+      if (asistencia === 'si'){
+        confirmMessage.textContent = 'Gracias, ' + nombre + '. ¡Nos vemos el 3 de octubre a las 3:00 PM en Balandra!';
+      } else {
+        confirmMessage.textContent = 'Gracias por avisarme, ' + nombre + '. ¡Te voy a extrañar en la fiesta!';
+      }
+      confirmScreen.classList.add('show');
+    }
+
+    if (window.storage && window.storage.set){
+      window.storage.set(key, JSON.stringify(record), true)
+        .then(function(){ showConfirmation(); })
+        .catch(function(){ showConfirmation(); });
+    } else {
+      showConfirmation();
+    }
+  });
+
+  // Vista simple para el anfitrión: agrega ?admin=1 a la URL para ver las confirmaciones
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === '1' && window.storage && window.storage.list){
+    window.storage.list('rsvp:', true).then(function(res){
+      var keys = (res && res.keys) ? res.keys : [];
+      if (!keys.length) return;
+      var panel = document.createElement('div');
+      panel.style.cssText = 'max-width:640px;margin:40px auto;padding:24px;background:#fff7ec;color:#1a0b3f;border-radius:16px;font-family:sans-serif;';
+      var rowsHtml = '';
+      var pending = keys.length;
+      keys.forEach(function(k){
+        window.storage.get(k, true).then(function(r){
+          pending--;
+          try{
+            var d = JSON.parse(r.value);
+            rowsHtml += '<tr><td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + d.nombre + '</td>' +
+              '<td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + (d.asistencia === 'si' ? 'Sí' : 'No') + '</td>' +
+              '<td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + (d.acompanante || '-') + '</td>' +
+              '<td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + (d.intolerancia || '-') + '</td></tr>';
+          } catch(e){}
+          if (pending === 0){
+            panel.innerHTML = '<h3 style="font-family:sans-serif;">Confirmaciones (' + keys.length + ')</h3>' +
+              '<table style="width:100%;border-collapse:collapse;font-size:14px;">' +
+              '<tr style="font-weight:bold;"><td style="padding:6px 10px;">Nombre</td><td style="padding:6px 10px;">Asiste</td><td style="padding:6px 10px;">Acompañante</td><td style="padding:6px 10px;">Intolerancia</td></tr>' +
+              rowsHtml + '</table>';
+            document.body.prepend(panel);
+          }
+        });
+      });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
