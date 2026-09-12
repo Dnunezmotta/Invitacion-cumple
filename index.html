@@ -95,6 +95,11 @@
     font-weight:500;
   }
   .subtitle strong{color:var(--cyan);}
+  .hero-icons{
+    font-size:2.4rem;
+    margin-top:20px;
+    letter-spacing:14px;
+  }
   .scroll-cue{
     margin-top:56px;
     font-size:14px;
@@ -334,9 +339,10 @@
 <div class="hero">
   <div class="sunburst" aria-hidden="true"></div>
   <div class="hero-content">
-    <span class="eyebrow-shape">¡se viene la fiesta!</span>
+    <span class="eyebrow-shape">se viene el tardeo</span>
     <h1 class="title display">Ven a celebrar<br>mi cumple</h1>
-    <p class="subtitle">Los primeros <strong>tacos</strong> van por mi cuenta.</p>
+    <p class="subtitle">Los primeros <strong>tacos</strong> van por mi cuenta. Y porque no hay tacos sin salsa, ¡habrá orquesta de salsa en vivo!</p>
+    <div class="hero-icons" aria-hidden="true">🌮 🪇</div>
     <div class="scroll-cue">
       todos los detalles aquí abajo
       <span class="arrow"></span>
@@ -352,7 +358,7 @@
       <span class="stub-notch left"></span>
       <span class="stub-notch right"></span>
       <h2>Fecha y hora</h2>
-      <p class="big">3 de octubre · 3:00 PM</p>
+      <p class="big">3 de octubre · 3:00 PM a 8:00 PM</p>
       <span class="note">Hora alemana: ¡puntual! ⏱</span>
     </div>
 
@@ -447,6 +453,8 @@
 
 <script>
 (function(){
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlIRDEHqaZAbsYhubWQR5BxOw2P7E3P2G8rcQMTkgU8f9cS577a37vsriEAHIH1c38iw/exec';
+
   var form = document.getElementById('rsvp-form');
   var acompananteField = document.getElementById('acompanante-field');
   var confirmScreen = document.getElementById('confirm-screen');
@@ -497,68 +505,31 @@
     if (!valid) return;
 
     var asistencia = asistenciaEl.value;
-    var acompanante = asistencia === 'si' ? acompananteEl.value : null;
+    var acompanante = asistencia === 'si' ? acompananteEl.value : '';
 
     var record = {
       nombre: nombre,
-      asistencia: asistencia,
+      asistencia: asistencia === 'si' ? 'Sí' : 'No',
       acompanante: acompanante,
-      intolerancia: intolerancia || null,
-      fecha_confirmacion: new Date().toISOString()
+      intolerancia: intolerancia || 'Ninguna'
     };
-
-    var key = 'rsvp:' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
 
     function showConfirmation(){
       form.style.display = 'none';
       if (asistencia === 'si'){
-        confirmMessage.textContent = 'Gracias, ' + nombre + '. ¡Nos vemos el 3 de octubre a las 3:00 PM en Balandra!';
+        confirmMessage.textContent = 'Gracias, ' + nombre + '. ¡Nos vemos el 3 de octubre de 3:00 PM a 8:00 PM en Balandra!';
       } else {
         confirmMessage.textContent = 'Gracias por avisarme, ' + nombre + '. ¡Te voy a extrañar en la fiesta!';
       }
       confirmScreen.classList.add('show');
     }
 
-    if (window.storage && window.storage.set){
-      window.storage.set(key, JSON.stringify(record), true)
-        .then(function(){ showConfirmation(); })
-        .catch(function(){ showConfirmation(); });
-    } else {
-      showConfirmation();
-    }
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: new URLSearchParams(record)
+    }).then(showConfirmation).catch(showConfirmation);
   });
-
-  // Vista simple para el anfitrión: agrega ?admin=1 a la URL para ver las confirmaciones
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1' && window.storage && window.storage.list){
-    window.storage.list('rsvp:', true).then(function(res){
-      var keys = (res && res.keys) ? res.keys : [];
-      if (!keys.length) return;
-      var panel = document.createElement('div');
-      panel.style.cssText = 'max-width:640px;margin:40px auto;padding:24px;background:#fff7ec;color:#1a0b3f;border-radius:16px;font-family:sans-serif;';
-      var rowsHtml = '';
-      var pending = keys.length;
-      keys.forEach(function(k){
-        window.storage.get(k, true).then(function(r){
-          pending--;
-          try{
-            var d = JSON.parse(r.value);
-            rowsHtml += '<tr><td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + d.nombre + '</td>' +
-              '<td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + (d.asistencia === 'si' ? 'Sí' : 'No') + '</td>' +
-              '<td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + (d.acompanante || '-') + '</td>' +
-              '<td style="padding:6px 10px;border-bottom:1px solid #ddd;">' + (d.intolerancia || '-') + '</td></tr>';
-          } catch(e){}
-          if (pending === 0){
-            panel.innerHTML = '<h3 style="font-family:sans-serif;">Confirmaciones (' + keys.length + ')</h3>' +
-              '<table style="width:100%;border-collapse:collapse;font-size:14px;">' +
-              '<tr style="font-weight:bold;"><td style="padding:6px 10px;">Nombre</td><td style="padding:6px 10px;">Asiste</td><td style="padding:6px 10px;">Acompañante</td><td style="padding:6px 10px;">Intolerancia</td></tr>' +
-              rowsHtml + '</table>';
-            document.body.prepend(panel);
-          }
-        });
-      });
-    });
-  }
 })();
 </script>
 
